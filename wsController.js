@@ -19,7 +19,6 @@ const joinGame = (socket, game) => {
 
 const relayTelemetry = (socket, telemetry) => {
     socket.to(telemetry.game).emit("telemetry", { "telemetry": telemetry });
-   // socket.emit("telemetry", { telemetry: telemetry });
 }
 
 module.exports = {wsConnection};
