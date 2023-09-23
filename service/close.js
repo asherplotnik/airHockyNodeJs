@@ -7,7 +7,7 @@ const CloseGameService = async(reqGame) => {
             console.log (`game over: ${game}`);
             game.deleteOne();
         } else {
-            console.log (`game not found: ${games}`);
+            console.log (`game not found: ${game}`);
         }
     } catch (error) {
         console.log(error);

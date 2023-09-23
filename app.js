@@ -14,6 +14,9 @@ const dbName = "airHockey";
 const User = require("./schemas/userSchema");
 const loginController = require("./service/login");
 const wsController = require("./wsController");
+const DeleteCollection = require("./service/deleteCollection");
+const cron = require('node-cron');
+
 mongoose.connect(`${mongoURL}/${dbName}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -37,3 +40,8 @@ ws.on("connection", (socket) => wsController.wsConnection(socket));
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+const deleteTask = DeleteCollection(db);
+cron.schedule('0 0 * * *', deleteTask);
+
+  
