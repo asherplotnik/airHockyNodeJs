@@ -29,7 +29,7 @@ app.use("/api", routes);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://monkfish-app-udzxj.ondigitalocean.app",
     methods: ["GET", "POST"],
   },
 });
