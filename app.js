@@ -16,7 +16,7 @@ const DeleteCollection = require("./service/deleteCollection");
 const cron = require('node-cron');
 const path = require('path');
 
-mongoose.connect(`${mongoURL}/${dbName}`, {
+mongoose.connect(`${mongoURL}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
