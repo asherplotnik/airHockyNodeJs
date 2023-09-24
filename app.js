@@ -8,7 +8,7 @@ app.use(cors());
 const server = http.createServer(app);
 const port = 3000;
 const mongoose = require("mongoose");
-const mongoURL = "mongodb://127.0.0.1:27017";
+const mongoURL = "mongodb+srv://asherplotnik:KOabQUmSMXmdThhE@cluster0.xcxve.mongodb.net/?retryWrites=true&w=majority";
 const dbName = "airHockey";
 const loginController = require("./service/login");
 const wsController = require("./wsController");
