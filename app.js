@@ -46,5 +46,4 @@ server.listen(port, () => {
 });
 
 cron.schedule('0 0 * * *', () => DeleteCollection(db));
-
   
