@@ -7,15 +7,14 @@ const app = express();
 app.use(cors());
 const server = http.createServer(app);
 const port = 3000;
-const { MongoClient } = require("mongodb");
 const mongoose = require("mongoose");
 const mongoURL = "mongodb://127.0.0.1:27017";
 const dbName = "airHockey";
-const User = require("./schemas/userSchema");
 const loginController = require("./service/login");
 const wsController = require("./wsController");
 const DeleteCollection = require("./service/deleteCollection");
 const cron = require('node-cron');
+const path = require('path');
 
 mongoose.connect(`${mongoURL}/${dbName}`, {
   useNewUrlParser: true,
@@ -30,18 +29,22 @@ app.use("/api", routes);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
 const ws = io.of("/ws");
 ws.on("connection", (socket) => wsController.wsConnection(socket));
 
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-const deleteTask = DeleteCollection(db);
-cron.schedule('0 0 * * *', deleteTask);
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+cron.schedule('0 0 * * *', () => DeleteCollection(db));
 
   
