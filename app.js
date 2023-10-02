@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const routes = require("./routes");
 const http = require("http");
@@ -8,13 +9,13 @@ app.use(cors());
 const server = http.createServer(app);
 const port = 8080;
 const mongoose = require("mongoose");
-const mongoURL = `mongodb+srv://asherplotnik:KOabQUmSMXmdThhE@cluster0.xcxve.mongodb.net/airHockey?retryWrites=true&w=majority`;
+const mongoURL = process.env.MONGODB_URI;
 const dbName = "airHockey";
 const loginController = require("./service/login");
 const wsController = require("./wsController");
 const DeleteCollection = require("./service/deleteCollection");
-const cron = require('node-cron');
-const path = require('path');
+const cron = require("node-cron");
+const path = require("path");
 
 mongoose.connect(`${mongoURL}`, {
   useNewUrlParser: true,
@@ -36,14 +37,13 @@ const io = new Server(server, {
 const ws = io.of("/ws");
 ws.on("connection", (socket) => wsController.wsConnection(socket));
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.use(express.static(path.join(__dirname, "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
 
-cron.schedule('0 0 * * *', () => DeleteCollection(db));
-  
+cron.schedule("0 0 * * *", () => DeleteCollection(db));
